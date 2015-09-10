@@ -127,7 +127,7 @@ arch-chroot /mnt passwd $username
 
 echo "[archlinuxfr]
 SigLevel = Never
-Server = http://repo.archlinux.fr/\$arch" > /mnt/etc/pacman.conf
+Server = http://repo.archlinux.fr/\$arch" >> /mnt/etc/pacman.conf
 arch-chroot /mnt pacman -Syyu yaourt --noconfirm
 arch-chroot /mnt yaourt -S i3-gaps-git screencloud dropbox numix-themes-git numix-circle-icon-theme-git filebot --noconfirm
 
@@ -139,6 +139,8 @@ touch /mnt/home/$username/.config/i3/conky/conkyrc
 touch /mnt/home/$username/.Xdefaults
 cd /mnt/home/$username/
 git clone https://github.com/cehcuhl/dotfiles.git
+cp -R /mnt/home/$username/dotfiles/ /
+rmdir /mnt/home/$username/dotfiles/
 
 # Enable some services
 
