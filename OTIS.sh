@@ -130,7 +130,7 @@ echo "[archlinuxfr]
 SigLevel = Never
 Server = http://repo.archlinux.fr/\$arch" >> /mnt/etc/pacman.conf
 arch-chroot /mnt pacman -Syyu yaourt --noconfirm
-arch-chroot /mnt yaourt -S i3-gaps-git screencloud dropbox numix-themes-git numix-circle-icon-theme-git filebot --noconfirm
+echo "yaourt -S i3-gaps-git screencloud numix-themes-git numix-circle-icon-theme-git filebot --noconfirm" > /mnt/home/$username/finishinstall
 
 # Copy over some configs
 
