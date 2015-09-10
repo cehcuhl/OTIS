@@ -131,22 +131,11 @@ SigLevel = Never
 Server = http://repo.archlinux.fr/\$arch" >> /mnt/etc/pacman.conf
 arch-chroot /mnt pacman -Syyu yaourt --noconfirm
 echo "yaourt -S i3-gaps-git screencloud numix-themes-git numix-circle-icon-theme-git filebot --noconfirm" > /mnt/home/$username/finishinstall
-
-# Copy over some configs
-
-mkdir -p /mnt/home/$username/.config/i3/conky/
-touch /mnt/home/$username/.config/i3/config
-touch /mnt/home/$username/.config/i3/conky/conkyrc
-touch /mnt/home/$username/.Xdefaults
-cd /mnt/home/$username/
-git clone https://github.com/cehcuhl/dotfiles.git
-cp -R /mnt/home/$username/dotfiles/ /
-rmdir /mnt/home/$username/dotfiles/
+chmod +x /mnt/home/$username/finishinstall
 
 # Enable some services
 
 arch-chroot /mnt systemctl enable lxdm.service
-arch-chroot /mnt systemctl enable netctl-auto@$network.service
 
 # End installation
 
