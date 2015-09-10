@@ -70,5 +70,6 @@ xf86-input-wacom
 xorg
 xorg-server
 xorg-xinit
+xrandr
 youtube-dl
 zip
