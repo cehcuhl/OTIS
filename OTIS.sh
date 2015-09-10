@@ -6,6 +6,7 @@ timedatectl set-ntp true
 
 # Get wireless info
 
+ip addr show | grep wlp
 echo ""
 echo "Network name thing:"
 read network
