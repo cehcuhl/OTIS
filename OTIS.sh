@@ -4,6 +4,12 @@ loadkeys us
 locale-gen
 timedatectl set-ntp true
 
+# Get wireless info
+
+echo ""
+echo "Network name thing:"
+read network
+
 # Partition and mount harddrive
 
 lsblk
@@ -47,6 +53,7 @@ else
 	mkswap $drive\2
 	swapon $drive\2
 	mkfs.ext4 -F $drive\3
+	mkdir /mnt
 	mount $drive\1 /mnt
 	mkdir /mnt/home
 	mount $drive\3 /mnt/home
