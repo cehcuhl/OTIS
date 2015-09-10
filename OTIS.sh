@@ -4,11 +4,16 @@ loadkeys us
 locale-gen
 timedatectl set-ntp true
 
-# Get wireless info
+# Lets get some info
+echo "Choose a hostname:"
+read hostname
+
+echo "Enter user account name (lowercase, no spaces):"
+read username
 
 ip addr show | grep wlp
 echo ""
-echo "Network name thing:"
+echo "Network interface name:"
 read network
 
 # Partition and mount harddrive
@@ -84,8 +89,6 @@ arch-chroot /mnt hwclock --systohc --utc
 
 # Configure hostname
 
-echo "Choose a hostname:"
-read hostname
 echo $hostname > /mnt/etc/hostname
 echo "#<ip-address>	<hostname.domain.org>	<hostname>
 127.0.0.1		localhost.localdomain	localhost	$hostname
@@ -116,8 +119,6 @@ fi
 
 # Setup user account
 
-echo "Enter user account name (lowercase, no spaces):"
-read username
 arch-chroot /mnt useradd -m -G wheel -s /bin/bash $username
 echo "$username ALL=(ALL) ALL" >> /mnt/etc/sudoers
 echo "Enter user account password for $username:"
