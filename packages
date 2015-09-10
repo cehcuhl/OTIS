@@ -11,6 +11,7 @@ conky
 curl
 dialog
 dmenu
+dropbox
 feh
 ffmpeg
 ffmpegthumbnailer
@@ -23,6 +24,7 @@ gparted
 gvfs
 gvfs-smb
 htop
+i3
 i3status
 imagemagick
 iw
