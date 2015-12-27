@@ -71,7 +71,7 @@ reflector --verbose -l 200 -p http --sort rate --save /etc/pacman.d/mirrorlist
 
 # Install base system and extras, then chroot into install
 
-pacstrap -i /mnt $(cat base base-devel --noconfirm
+pacstrap -i /mnt base base-devel --noconfirm
 genfstab -U /mnt > /mnt/etc/fstab
 
 # Do some unimportant stuff
