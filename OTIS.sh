@@ -11,11 +11,6 @@ read hostname
 echo "Enter user account name (lowercase, no spaces):"
 read username
 
-ip addr show | grep wlp
-echo ""
-echo "Network interface name:"
-read network
-
 # Partition and mount harddrive
 
 lsblk
@@ -30,7 +25,7 @@ if [ "$drivetype" == "UEFI" ]; then
 	parted $drive mklabel gpt
 	parted $drive mkpart ESP fat32 1MiB 513MiB
 	parted $drive set 1 boot on
-	parted $drive mkpart primary ext4 514MiB 20GiB
+	parted $drive mkpart primary ext4 513MiB 20GiB
 	parted $drive mkpart primary linux-swap 20GiB 24GiB
 	parted $drive mkpart primary ext4 24GiB 100%
 else
@@ -76,7 +71,7 @@ reflector --verbose -l 200 -p http --sort rate --save /etc/pacman.d/mirrorlist
 
 # Install base system and extras, then chroot into install
 
-pacstrap -i /mnt $(cat ~/OTIS/packages) --noconfirm
+pacstrap -i /mnt $(cat base base-devel --noconfirm
 genfstab -U /mnt > /mnt/etc/fstab
 
 # Do some unimportant stuff
@@ -109,7 +104,7 @@ if [ "$drivetype" == "UEFI" ]; then
 	echo "title	Arch Linux
 	linux	/vmlinuz-linux
 	initrd	/initramfs-linux.img
-	options	root=$drive\2 rw" > /mnt/boot/loader/entries.conf
+	options	root=$drive\2 rw" > /mnt/boot/loader/entries/arch.conf
 else
 	mkdir -p /mnt/boot/grub/
 	arch-chroot /mnt pacman -S grub os-prober --noconfirm
@@ -117,25 +112,11 @@ else
 	arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
-# Setup user account
+# Create user account
 
 arch-chroot /mnt useradd -m -G wheel -s /bin/bash $username
-echo "$username ALL=(ALL) ALL" >> /mnt/etc/sudoers
 echo "Enter user account password for $username:"
 arch-chroot /mnt passwd $username
-
-# Add yaourt repo and some programs
-
-echo "[archlinuxfr]
-SigLevel = Never
-Server = http://repo.archlinux.fr/\$arch" >> /mnt/etc/pacman.conf
-arch-chroot /mnt pacman -Syyu yaourt --noconfirm
-echo "yaourt -S i3-gaps-git screencloud numix-themes-git numix-circle-icon-theme-git filebot --noconfirm" > /mnt/home/$username/finishinstall
-chmod +x /mnt/home/$username/finishinstall
-
-# Enable some services
-
-arch-chroot /mnt systemctl enable lxdm.service
 
 # End installation
 
